@@ -61,9 +61,9 @@ void imprimirAsistencias(Asistencia* asistencias, int cantAsistencias) {
 }
 
 int main() {
-    string archivocliente= "/Users/tomialvarez/Desktop/Tp IRI 2023/Dataset TP/iriClientesGYM.csv";
-    string archivoclases= "/Users/tomialvarez/Desktop/Tp IRI 2023/Dataset TP/iriClasesGYM.csv";
-    string archivobinario= "/Users/tomialvarez/Downloads/Dataset TP-1/asistencias_1697673600000.dat";
+    string archivocliente= "iriClientesGYM.csv";
+    string archivoclases= "iriClasesGYM.csv";
+    string archivobinario= "asistencias_1697673600000.dat";
     int tamanio = contarClientes(archivocliente);
     int cantclases = contarClases(archivoclases);
 
