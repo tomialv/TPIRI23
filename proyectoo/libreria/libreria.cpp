@@ -157,36 +157,44 @@ void ImprimirClientes(Persona* clientes, int acum) {
 }
 
 
-/*int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion* Inscrip) {
+int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion* Inscrip) {
 
     int i;
     ofstream bi(archivobinario, ios::binary);
-    int indiceAleatorioclase;
     if (!bi) {
         cerr << "No se pudo abrir el archivo." << endl;
         return 1;
     }
 
     // Semilla para el generador de números aleatorios
-    srand(static_cast<unsigned int>(time(nullptr)));
+    srand(time(nullptr));
 
     for (i = 0; i < cantClientes; i++)
     {
         int indiceAleatorioclase = rand() % cantClases;//indice aleatorio de clases, longitud debe ser la cantidad de clases
         int indiceAleatoriocliente = rand() % cantClientes;
 
-
-//si se cumplen los dos metodos de verificacion
+        if(clienterepetido(Persona* clientes,Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
                 Asistencias[i].idCliente = cliente[indiceAleatoriocliente].idCliente;
                 bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
                 Asistencias[i].CursosInscriptos->idCurso = clases[indiceAleatorioclase].idClase;
                 bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
-
+        }
     }
 
-
     return 0;
-} */
+}
+
+
+bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, indiceAleatorioclase, indiceAleatoriocliente) {
+    for (int i = 0; i < /*cant clientes en asistencias*/; i++)//tenemos que ver como sacamos esa cantidad de clientes en la estructura de asistencias
+    {
+        if (clientes[indiceAleatoriocliente].idCliente == Asistencias[i].idCliente && clas[indiceAleatorioclase]->idClase ==Asistencias[i].CursosInscriptos->idCurso) {//compara el id que se asigno con los id que se encuentra y tambien que la clase asignada coincida
+                return true;
+        }
+    }
+    return false;
+}
 
 Libreria::Libreria()
 {
