@@ -196,6 +196,17 @@ bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, In
     return false;
 }
 
+void resize(string*& vector, int& tam) {
+    tam++;
+    string* aux = new string[tam];
+    for (int i = 0; i < tam; i++)
+    {
+        *(aux + i) = *(vector + i);
+    }
+    delete[] vector;
+    vector = aux;
+}
+
 Libreria::Libreria()
 {
 
