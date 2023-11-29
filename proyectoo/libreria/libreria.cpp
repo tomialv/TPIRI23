@@ -1,37 +1,6 @@
 #include "libreria.h"
 #include <sstream>
 
-
-void leerBinario(const char* nombreArchivo, Asistencia*& asistencias, int& cantAsistencias) {
-    ifstream archivo(nombreArchivo, ios::binary);
-
-    if (!archivo) {
-        cerr << "No se pudo abrir el archivo." << endl;
-        return;
-    }
-
-    archivo.read((char*)&cantAsistencias, sizeof(int));
-
-    asistencias = new Asistencia[cantAsistencias];
-
-    for (int i = 0; i < cantAsistencias; ++i) {
-        archivo.read((char*)&asistencias[i].idCliente, sizeof(int));
-        archivo.read((char*)&asistencias[i].cantInscriptos, sizeof(int));
-
-        asistencias[i].CursosInscriptos = new Inscripcion[asistencias[i].cantInscriptos];
-
-        for (int j = 0; j < asistencias[i].cantInscriptos; ++j) {
-            archivo.read((char*)&asistencias[i].CursosInscriptos[j].idCurso, sizeof(int));
-            archivo.read((char*)&asistencias[i].CursosInscriptos[j].fechaInscripcion, sizeof(time_t));
-        }
-    }
-
-    archivo.close();
-}
-
-
-
-
 int contarClientes(const string& archivocliente) {
     ifstream archiCliente(archivocliente);
     string linea;
@@ -45,7 +14,7 @@ int contarClientes(const string& archivocliente) {
         }
         return acum;
     } else {
-        cout << "Error al abrir el archivo." << endl;
+        cout << "Error al abrir el archivo de clientes" << endl;
         return 0;
     }
     archiCliente.close();
@@ -64,10 +33,13 @@ int contarClases(const string& archivoclases) {
         }
         return acum;
     } else {
-            cout << "Error al abrir archivo" << endl;
+            cout << "Error al abrir archivo de clases" << endl;
     }
 
 }
+
+
+//------------------------------LEER Y GUARDAR----------------------------------------------------
 
 int LeerClientes(const string& archivocliente, Persona* clientes) {
     ifstream archiCliente(archivocliente);
@@ -102,43 +74,42 @@ int LeerClientes(const string& archivocliente, Persona* clientes) {
         archiCliente.close();
         return 0;
     } else {
-        cout << "Error al abrir el archivo." << endl;
+        cout << "Error al abrir el archivo clientes." << endl;
         return 1;
     }
 }
 
-    int LeerClases(const string& archivoclase, Clases* clas){
-        ifstream archiCla(archivoclase);
-        string linea;
-        char delimitador= ',';
-        if (archiCla.is_open()) {
-            getline(archiCla, linea); //leo encabezado
-            int i=0;
-            while (getline(archiCla, linea)){
+int LeerClases(const string& archivoclase, Clases* clas){
+    ifstream archiCla(archivoclase);
+    string linea;
+    char delimitador= ',';
+    if (archiCla.is_open()) {
+        getline(archiCla, linea); //ignoro encabezado
+        int i=0;
+        while (getline(archiCla, linea)){
 
-                stringstream ss(linea);
-                string campo;
+            stringstream ss(linea);
+            string campo;
 
-                getline(ss,campo, delimitador);
-                clas[i].idClase = stoi(campo); // uso stoi para transformar id de string a int
+            getline(ss,campo, delimitador);
+            clas[i].idClase = stoi(campo); // uso stoi para transformar id de string a int
 
-                getline(ss, campo, delimitador);
-                clas[i].nombre = campo;
+            getline(ss, campo, delimitador);
+            clas[i].nombre = campo;
 
-                getline(ss, campo, delimitador); // convierto horario a float.
-                clas[i].horario = stof(campo);
+            getline(ss, campo, delimitador); // convierto horario a float.
+            clas[i].horario = stof(campo);
 
-                i++;
-            }
-            return 0;
-        } else {
-                cout << "error al abrir archivo";
-                return 1;
+            i++;
         }
+        return 0;
+    } else {
+        cout << "error al abrir archivo";
+        return 1;
     }
+}
 
-
-
+//-------------------------------------------------------------------------------
 
 
 void ImprimirClientes(Persona* clientes, int acum) {
@@ -157,36 +128,9 @@ void ImprimirClientes(Persona* clientes, int acum) {
 }
 
 
-int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion* Inscrip) {
 
-    int i;
-    ofstream bi(archivobinario, ios::binary);
-    if (!bi) {
-        cerr << "No se pudo abrir el archivo." << endl;
-        return 1;
-    }
-
-    // Semilla para el generador de números aleatorios
-    srand(time(nullptr));
-
-    for (i = 0; i < cantClientes; i++)
-    {
-        int indiceAleatorioclase = rand() % cantClases;//indice aleatorio de clases, longitud debe ser la cantidad de clases
-        int indiceAleatoriocliente = rand() % cantClientes;
-
-        if(clienterepetido(Persona* clientes,Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
-                Asistencias[i].idCliente = cliente[indiceAleatoriocliente].idCliente;
-                bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
-                Asistencias[i].CursosInscriptos->idCurso = clases[indiceAleatorioclase].idClase;
-                bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
-        }
-    }
-
-    return 0;
-}
-
-
-bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, indiceAleatorioclase, indiceAleatoriocliente) {
+//verifica que la persona no este inscripta en la estrutura asistencias[]
+bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente) {
     for (int i = 0; i < /*cant clientes en asistencias*/; i++)//tenemos que ver como sacamos esa cantidad de clientes en la estructura de asistencias
     {
         if (clientes[indiceAleatoriocliente].idCliente == Asistencias[i].idCliente && clas[indiceAleatorioclase]->idClase ==Asistencias[i].CursosInscriptos->idCurso) {//compara el id que se asigno con los id que se encuentra y tambien que la clase asignada coincida
@@ -206,6 +150,87 @@ void resize(string*& vector, int& tam) {
     delete[] vector;
     vector = aux;
 }
+
+//imprime el vector asistencias
+void imprimirAsistencia(const Asistencia& asistencia) {
+    cout << "ID Cliente: " << asistencia.idCliente << "\n";
+    cout << "Cantidad de inscriptos: " << asistencia.cantInscriptos << "\n";
+    for (int i = 0; i < asistencia.cantInscriptos; ++i) {
+        cout << "Inscripcion " << i + 1 << ":\n";
+        cout << "  - ID Curso: " << asistencia.CursosInscriptos[i].idCurso << "\n";
+        cout << "  - Fecha de inscripcion: " << asctime(localtime(&asistencia.CursosInscriptos[i].fechaInscripcion));
+    }
+}
+
+
+
+//-----------------------------------------DUDAS--------------------------------------------------------------
+
+
+//-----------METODO 1: HACER VECTOR AUXILIAR, VERIFICAR QUE ESE VECTOR CUMPLE LAS CONDICIONES Y GUARDAR----------
+
+//Metodo para hacer reservas:  1) Hacer la reserva y guardarla en un vector auxiliar
+//                                2) otra funcion: comparar ese vector auxiliar con la lista de asistencias (verificaciones)
+//                              3) si pasa las verificaciones, agrego el auxiliar a la ultima posicion de asistencias.
+
+Asistencia GenerarReservaAleatoria(Clases* clas, int cantClases, Persona* clientes, int tamanio) {
+    srand(time(0)); // Inicializar la semilla de rand() con el tiempo actual
+
+    // Generar índices aleatorios para clases y clientes
+    int indiceClase = rand() % cantClases; // Obtener un índice de clase aleatorio
+    int indiceCliente = rand() % tamanio; // Obtener un índice de cliente aleatorio
+
+    // Crear una estructura de Inscripcion para la reserva aleatoria
+    Inscripcion nuevaInscripcion;
+    nuevaInscripcion.idCurso = clas[indiceClase].idClase; // Obtener el ID de la clase
+    nuevaInscripcion.fechaInscripcion = time(nullptr); // Obtener la fecha actual como la fecha de inscripción
+
+    // Crear una estructura de Asistencia para la reserva generada
+    Asistencia nuevaAsistencia;
+    nuevaAsistencia.idCliente = clientes[indiceCliente].idCliente;
+    nuevaAsistencia.cantInscriptos= ; // --------------a que deberia ser igual???--------------
+    nuevaAsistencia.CursosInscriptos = new Inscripcion[1]; // Reservar memoria para una única Inscripcion
+    nuevaAsistencia.CursosInscriptos[0] = nuevaInscripcion; // Almacenar la inscripción en la reserva
+
+    return nuevaAsistencia;
+}
+//----------------------------------------------------------------------------------------------------------------
+//METODO 2: ---------TODO EN UNA FUNCION-----------------
+//Hace la reserva, verifica y guarda en el archivo binario
+int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion* Inscrip,int& cantAsistencia) {//---------------cantAsistencia va con & o con * ?---------------------------
+
+    int i;
+    ofstream bi(archivobinario, ios::binary);
+    if (!bi) {
+        cerr << "No se pudo abrir el archivo." << endl;
+        return 1;
+    }
+
+    // Semilla para el generador de números aleatorios
+    srand(time(nullptr));
+
+    for (i = 0; i < cantClientes; i++)
+    {
+        int indiceAleatorioclase = rand() % cantClases;//indice aleatorio de clases, longitud debe ser la cantidad de clases
+        int indiceAleatoriocliente = rand() % cantClientes;
+
+        if(clienterepetido(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
+                resize(Asistencias, cantAsistencia);
+                Asistencias[i].idCliente = cliente[indiceAleatoriocliente].idCliente;
+                bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
+                Asistencias[i].CursosInscriptos->idCurso = clases[indiceAleatorioclase].idClase;
+                bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
+                contarAsistencia()//actualizamos la cantidad de asistencia, va a ser la funcion que devuelve cantasistencias
+        }
+    }
+
+    return 0;
+}
+
+int cantAsistencia(Asistencia* asis){//---------------------como la hacemos???-------------------------------
+
+}
+
 
 Libreria::Libreria()
 {
