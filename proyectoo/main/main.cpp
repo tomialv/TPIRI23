@@ -11,8 +11,8 @@ int main() {
     int cantclases = contarClases(archivoclases);
     int cantAsistencias=contarAsistencias();//----------------¿como contamos cantidad de asistencias?--------------------
 
-    Asistencia* Asistencias = new Asistencia[cantAsistencias];
-    Inscripcion* Inscrip= new Inscripcion[900];//-------¿Que tamaño?---------------
+    Asistencia* Asistencias = new Asistencia[cantAsistencias];//?
+    Inscripcion* Inscrip= new Inscripcion[900];//-------¿Que tamaño?-¿Tambien cantAsistencias?--------------
     Clases* clas= new Clases[cantclases];
     Persona* clientes = new Persona[tamanio];
 
@@ -21,7 +21,7 @@ int main() {
     LeerClases(archivoclases, clas);//leo clases y los guardo en su clas{}
     //como seguimos?
 
-    //aca deberia ir el codigo para generar reserva nueva, verificarla y agregarla como una nueva asistencias[].
+    //aca deberia ir las funciones para generar reserva nueva, verificarla y agregarla como una nueva asistencias[].
 
 
 

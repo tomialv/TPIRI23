@@ -108,8 +108,10 @@ int LeerClases(const string& archivoclase, Clases* clas){
         return 1;
     }
 }
+// --------------------------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+
+//----------------------- FUNCIONES IMPRIMIR --------------------------------------------------------
 
 
 void ImprimirClientes(Persona* clientes, int acum) {
@@ -128,13 +130,25 @@ void ImprimirClientes(Persona* clientes, int acum) {
 }
 
 
+//imprime el vector asistencias
+void imprimirAsistencia(const Asistencia& asistencia) {
+    cout << "ID Cliente: " << asistencia.idCliente << "\n";
+    cout << "Cantidad de inscriptos: " << asistencia.cantInscriptos << "\n";
+    for (int i = 0; i < asistencia.cantInscriptos; ++i) {
+        cout << "Inscripcion " << i + 1 << ":\n";
+        cout << "  - ID Curso: " << asistencia.CursosInscriptos[i].idCurso << "\n";
+        cout << "  - Fecha de inscripcion: " << asctime(localtime(&asistencia.CursosInscriptos[i].fechaInscripcion));
+    }
+}
+
+//-------------------------------------------------------------------------------------------
 
 //verifica que la persona no este inscripta en la estrutura asistencias[]
 bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente) {
     for (int i = 0; i < /*cant clientes en asistencias*/; i++)//tenemos que ver como sacamos esa cantidad de clientes en la estructura de asistencias
     {
         if (clientes[indiceAleatoriocliente].idCliente == Asistencias[i].idCliente && clas[indiceAleatorioclase]->idClase ==Asistencias[i].CursosInscriptos->idCurso) {//compara el id que se asigno con los id que se encuentra y tambien que la clase asignada coincida
-                return true;
+            return true;
         }
     }
     return false;
@@ -151,26 +165,14 @@ void resize(string*& vector, int& tam) {
     vector = aux;
 }
 
-//imprime el vector asistencias
-void imprimirAsistencia(const Asistencia& asistencia) {
-    cout << "ID Cliente: " << asistencia.idCliente << "\n";
-    cout << "Cantidad de inscriptos: " << asistencia.cantInscriptos << "\n";
-    for (int i = 0; i < asistencia.cantInscriptos; ++i) {
-        cout << "Inscripcion " << i + 1 << ":\n";
-        cout << "  - ID Curso: " << asistencia.CursosInscriptos[i].idCurso << "\n";
-        cout << "  - Fecha de inscripcion: " << asctime(localtime(&asistencia.CursosInscriptos[i].fechaInscripcion));
-    }
-}
-
-
 
 //-----------------------------------------DUDAS--------------------------------------------------------------
 
 
 //-----------METODO 1: HACER VECTOR AUXILIAR, VERIFICAR QUE ESE VECTOR CUMPLE LAS CONDICIONES Y GUARDAR----------
 
-//Metodo para hacer reservas:  1) Hacer la reserva y guardarla en un vector auxiliar
-//                                2) otra funcion: comparar ese vector auxiliar con la lista de asistencias (verificaciones)
+//Metodo para hacer reservas:  1) Hacer la reserva (generar idClase y un idCliente random) y guardarla en un vector auxiliar
+//                                2) otra funcion: comparar ese vector auxiliar con la lista de asistencias (para ver si el cliente se repite)
 //                              3) si pasa las verificaciones, agrego el auxiliar a la ultima posicion de asistencias.
 
 Asistencia GenerarReservaAleatoria(Clases* clas, int cantClases, Persona* clientes, int tamanio) {
@@ -182,17 +184,17 @@ Asistencia GenerarReservaAleatoria(Clases* clas, int cantClases, Persona* client
 
     // Crear una estructura de Inscripcion para la reserva aleatoria
     Inscripcion nuevaInscripcion;
-    nuevaInscripcion.idCurso = clas[indiceClase].idClase; // Obtener el ID de la clase
+    nuevaInscripcion.idCurso = clas[indiceClase].idClase; // guardo el idClase generado aleatoriamente en la nueva estructura auxiliar
     nuevaInscripcion.fechaInscripcion = time(nullptr); // Obtener la fecha actual como la fecha de inscripción
 
     // Crear una estructura de Asistencia para la reserva generada
     Asistencia nuevaAsistencia;
-    nuevaAsistencia.idCliente = clientes[indiceCliente].idCliente;
-    nuevaAsistencia.cantInscriptos= ; // --------------a que deberia ser igual???--------------
+    nuevaAsistencia.idCliente = clientes[indiceCliente].idCliente; // guardo el idCliente generado aleatoriamente
+    nuevaAsistencia.cantInscriptos= //1? ; // --------------a que deberia ser igual???--------------
     nuevaAsistencia.CursosInscriptos = new Inscripcion[1]; // Reservar memoria para una única Inscripcion
     nuevaAsistencia.CursosInscriptos[0] = nuevaInscripcion; // Almacenar la inscripción en la reserva
 
-    return nuevaAsistencia;
+    return nuevaAsistencia; //me devuelve todos los datos de una inscripción en esta estructura auxiliar "nuevaAsistencia"
 }
 //----------------------------------------------------------------------------------------------------------------
 //METODO 2: ---------TODO EN UNA FUNCION-----------------

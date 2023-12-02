@@ -25,14 +25,14 @@ struct Clases {
     float horario;
 };
 
-struct Inscripcion {//-------como funciona??-------------
+struct Inscripcion {//-------como debemos usarla?-------------
     uint idCurso;
     time_t fechaInscripcion;
 };
 
 struct Asistencia {
     uint idCliente;
-    uint cantInscriptos;//en la posicion que esta idcurso, es la cantidad de personas que hay ahi
+    uint cantInscriptos;//en la posicion que esta idCliente, es la cantidad de personas que hay ahi? de donde sacamos ese dato?
     Inscripcion* CursosInscriptos;
 };
 
@@ -57,14 +57,20 @@ public:
 
 
 /*
-// no entendemos como funciona la cantidad de inscriptos
+// no entendemos como funciona la cantidad de inscriptos.... va variando en cada posicion de Asistencia?
+y tampoco entendemos la propia estructura de inscripción, CursosInscriptos, que deberiamos meter ahi?
+
+Lo entendemos asi..por ejemplo la reserva 1 sería:
 Asistencias[1].idcliente
     Asistencias[1].cantInscriptos
             Asistencias[1].CursosInscriptos[1].idcurso
             Asistencias[1].CursosInscriptos[1].fechainscripcion
 
 
+Esto va a ir variando en cada reserva para Asistencias[1][2][3], etc...
 
+
+Hablando de las reservas.., tenemos dudas de que método deberiamos usar para crearlas. En libreria.cpp detallamos las dudas
 */
 
 enum cupoMax { spinning =45, yoga =25, pilates=15, stretching =40, zumba=50, boxeo=30};
