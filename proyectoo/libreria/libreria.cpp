@@ -222,6 +222,7 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
                 bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
                 Asistencias[i].CursosInscriptos->idCurso = clases[indiceAleatorioclase].idClase;
                 bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
+                Asistencia.cantInscriptos++;
                 contarAsistencia()//actualizamos la cantidad de asistencia, va a ser la funcion que devuelve cantasistencias
         }
     }
