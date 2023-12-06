@@ -213,7 +213,6 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
 
     int i;
     int cupomaximo[7]={45, 25, 15, 40, 50, 30, 35};
-    int tamano = sizeof(Asistencias) / sizeof(Asistencias[0]);
     int cantAsis=0;
 
     ofstream bi(archivobinario, ios::binary);
@@ -231,12 +230,12 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
         int indiceAleatoriocliente = rand() % cantClientes;
 
         if(clienterepetido(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false &&
-            haycupo(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente, cupomaximo)==true){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
+            haycupo(clases, indiceAleatorioclase, indiceAleatoriocliente, cupomaximo)==true){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
                 resize(Asistencias, cantAsis);
                 Asistencias[i].idCliente = cliente[indiceAleatoriocliente].idCliente;
-                //bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
+                bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
                 Asistencias[i].CursosInscriptos->idCurso = clases[indiceAleatorioclase].idClase;
-               // bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
+                bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
                 Asistencias[i].cantInscriptos++;
                 //contarAsistencia()//actualizamos la cantidad de asistencia, va a ser la funcion que devuelve cantasistencias
         }
@@ -244,7 +243,7 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
 
     return 0;
 }
-
+/*
 int cantAsistencia(Asistencia* asis){//---------------------como la hacemos???-------------------------------
     int cont = 0;
     for (int i = 0; i < sizeof(asis) / sizeof(asis[0]); i++) {
@@ -253,8 +252,8 @@ int cantAsistencia(Asistencia* asis){//---------------------como la hacemos???--
 
     return cont;
 }
-
-bool haycupo(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente, int cupomaximo[7]) {
+*/
+bool haycupo(Clases* clas, int indiceAleatorioclase, int indiceAleatoriocliente, int cupomaximo[7]) {
     if(clas[indiceAleatorioclase].idClase<=5){//spinning
         if(clas[indiceAleatorioclase].cupoactual>cupomaximo[1]){
                 return false;
