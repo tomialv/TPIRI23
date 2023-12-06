@@ -145,21 +145,25 @@ void imprimirAsistencia(const Asistencia& asistencia) {
 
 //verifica que la persona no este inscripta en la estrutura asistencias[]
 bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente) {
-    for (int i = 0; i < /*cant clientes en asistencias*/; i++)//tenemos que ver como sacamos esa cantidad de clientes en la estructura de asistencias
+
+    int tamano = sizeof(Asistencias) / sizeof(Asistencias[0]);
+
+    for (int i = 0; i < tamano; i++)//tenemos que ver como sacamos esa cantidad de clientes en la estructura de asistencias
     {
-        if (clientes[indiceAleatoriocliente].idCliente == Asistencias[i].idCliente && clas[indiceAleatorioclase]->idClase ==Asistencias[i].CursosInscriptos->idCurso) {//compara el id que se asigno con los id que se encuentra y tambien que la clase asignada coincida
+        if (clientes[indiceAleatoriocliente].idCliente == Asistencias[i].idCliente &&
+            clas[indiceAleatorioclase].idClase ==Asistencias[i].CursosInscriptos->idCurso) {//compara el id que se asigno con los id que se encuentra y tambien que la clase asignada coincida
             return true;
         }
     }
     return false;
 }
 
-void resize(string*& vector, int& tam) {
+void resize(Asistencia*& vector, int& tam) {
     tam++;
-    string* aux = new string[tam];
+    Asistencia* aux = new Asistencia[tam];
     for (int i = 0; i < tam; i++)
     {
-        *(aux + i) = *(vector + i);
+        aux[i] =vector[i];
     }
     delete[] vector;
     vector = aux;
@@ -174,7 +178,7 @@ void resize(string*& vector, int& tam) {
 //Metodo para hacer reservas:  1) Hacer la reserva (generar idClase y un idCliente random) y guardarla en un vector auxiliar
 //                                2) otra funcion: comparar ese vector auxiliar con la lista de asistencias (para ver si el cliente se repite)
 //                              3) si pasa las verificaciones, agrego el auxiliar a la ultima posicion de asistencias.
-
+/*
 Asistencia GenerarReservaAleatoria(Clases* clas, int cantClases, Persona* clientes, int tamanio) {
     srand(time(0)); // Inicializar la semilla de rand() con el tiempo actual
 
@@ -195,13 +199,16 @@ Asistencia GenerarReservaAleatoria(Clases* clas, int cantClases, Persona* client
     nuevaAsistencia.CursosInscriptos[0] = nuevaInscripcion; // Almacenar la inscripción en la reserva
 
     return nuevaAsistencia; //me devuelve todos los datos de una inscripción en esta estructura auxiliar "nuevaAsistencia"
-}
+}*/
 //----------------------------------------------------------------------------------------------------------------
 //METODO 2: ---------TODO EN UNA FUNCION-----------------
 //Hace la reserva, verifica y guarda en el archivo binario
 int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion* Inscrip,int& cantAsistencia) {//---------------cantAsistencia va con & o con * ?---------------------------
 
     int i;
+    int cupomaximo[7]={45, 25, 15, 40, 50, 30, 35};
+    int tamano = sizeof(Asistencias) / sizeof(Asistencias[0]);
+
     ofstream bi(archivobinario, ios::binary);
     if (!bi) {
         cerr << "No se pudo abrir el archivo." << endl;
@@ -216,14 +223,15 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
         int indiceAleatorioclase = rand() % cantClases;//indice aleatorio de clases, longitud debe ser la cantidad de clases
         int indiceAleatoriocliente = rand() % cantClientes;
 
-        if(clienterepetido(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
+        if(clienterepetido(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false &&
+            haycupo(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente, cupomaximo)==true){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
                 resize(Asistencias, cantAsistencia);
                 Asistencias[i].idCliente = cliente[indiceAleatoriocliente].idCliente;
-                bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
+                //bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
                 Asistencias[i].CursosInscriptos->idCurso = clases[indiceAleatorioclase].idClase;
-                bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
-                Asistencia.cantInscriptos++;
-                contarAsistencia()//actualizamos la cantidad de asistencia, va a ser la funcion que devuelve cantasistencias
+               // bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
+                Asistencias[i].cantInscriptos++;
+                //contarAsistencia()//actualizamos la cantidad de asistencia, va a ser la funcion que devuelve cantasistencias
         }
     }
 
@@ -231,33 +239,52 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
 }
 
 int cantAsistencia(Asistencia* asis){//---------------------como la hacemos???-------------------------------
+    int cont = 0;
+    for (int i = 0; i < sizeof(asis) / sizeof(asis[0]); i++) {
+        cont++;
+    }
 
+    return cont;
 }
 
-
-bool haycupo(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente) {
-    if(clas->idClase[indiceAleatorioclase]<=5){//spinning
-
+bool haycupo(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente, int cupomaximo[7]) {
+    if(clas[indiceAleatorioclase].idClase<=5){//spinning
+        if(clas[indiceAleatorioclase].cupoactual>cupomaximo[1]){
+                return false;
+        }
     }
     if (clas[indiceAleatorioclase].idClase >=6 && clas[indiceAleatorioclase].idClase<=11 ) {//yoga
-
+        if(clas[indiceAleatorioclase].cupoactual>cupomaximo[2]){
+                return false;
+        }
     }
     if (clas[indiceAleatorioclase].idClase >=12 && clas[indiceAleatorioclase].idClase<=17 ) {//pilates
-
+        if(clas[indiceAleatorioclase].cupoactual>cupomaximo[3]){
+                return false;
+        }
     }
     if (clas[indiceAleatorioclase].idClase >=18 && clas[indiceAleatorioclase].idClase<=23 ) {//streching
-
+        if(clas[indiceAleatorioclase].cupoactual>cupomaximo[4]){
+                return false;
+        }
     }
     if (clas[indiceAleatorioclase].idClase >=24 && clas[indiceAleatorioclase].idClase<=29 ) {//zumba
-
+        if(clas[indiceAleatorioclase].cupoactual>cupomaximo[5]){
+                return false;
+        }
     }
     if (clas[indiceAleatorioclase].idClase >=30 && clas[indiceAleatorioclase].idClase<=33 ) {//boxeo
-
+        if(clas[indiceAleatorioclase].cupoactual>cupomaximo[6]){
+                return false;
+        }
     }
     if (clas[indiceAleatorioclase].idClase >=34 && clas[indiceAleatorioclase].idClase<=60 ) {//musculacion
-
+        if(clas[indiceAleatorioclase].cupoactual>cupomaximo[7]){
+                return false;
+        }
     }
 
+    return true;
 }
 
 Libreria::Libreria()

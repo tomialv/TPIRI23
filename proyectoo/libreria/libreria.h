@@ -21,6 +21,7 @@ struct Persona{
 
 struct Clases {
     int idClase;
+    int cupoactual=0;
     string nombre;
     float horario;
 };
@@ -43,6 +44,7 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
 int LeerClases(const string& archivoclase, Clases* clas);
 bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente);
 void resize(string*& vector, int& tam);
+bool haycupo(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente, int cupomaximo[7]);
 
 void ImprimirClientes(Persona* clientes, int acum);
 void imprimirAsistencia(const Asistencia& asistencia);
@@ -73,5 +75,4 @@ Esto va a ir variando en cada reserva para Asistencias[1][2][3], etc...
 Hablando de las reservas.., tenemos dudas de que método deberiamos usar para crearlas. En libreria.cpp detallamos las dudas
 */
 
-enum cupoMax { spinning =45, yoga =25, pilates=15, stretching =40, zumba=50, boxeo=30};
 

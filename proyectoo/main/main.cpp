@@ -4,13 +4,13 @@
 using namespace std;
 
 int main() {
-    int cupoclase[7]={45, 25, 15, 40, 50, 30, 35};
+    int cupomaximo[7]={45, 25, 15, 40, 50, 30, 35};
     string archivocliente= "iriClientesGYM.csv";
     string archivoclases= "iriClasesGYM.csv";
     string archivobinario= "asistencias_1697673600000.dat";
     int tamanio = contarClientes(archivocliente);
     int cantclases = contarClases(archivoclases);
-    int cantAsistencias=contarAsistencias();//----------------¿como contamos cantidad de asistencias?--------------------
+    int cantAsistencias=cantAsistencias();//----------------¿como contamos cantidad de asistencias?--------------------
 
     Asistencia* Asistencias = new Asistencia[cantAsistencias];//?
     Inscripcion* Inscrip= new Inscripcion[900];//-------¿Que tamaño?-¿Tambien cantAsistencias?--------------
