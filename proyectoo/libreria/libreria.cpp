@@ -108,6 +108,12 @@ int LeerClases(const string& archivoclase, Clases* clas){
         return 1;
     }
 }
+
+int leerAsistencia(const string&archivobinario, Asistencia*asis){
+
+}
+
+
 // --------------------------------------------------------------------------------------------------
 
 
@@ -208,6 +214,7 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
     int i;
     int cupomaximo[7]={45, 25, 15, 40, 50, 30, 35};
     int tamano = sizeof(Asistencias) / sizeof(Asistencias[0]);
+    int cantAsis=0;
 
     ofstream bi(archivobinario, ios::binary);
     if (!bi) {
@@ -225,7 +232,7 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
 
         if(clienterepetido(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false &&
             haycupo(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente, cupomaximo)==true){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
-                resize(Asistencias, cantAsistencia);
+                resize(Asistencias, cantAsis);
                 Asistencias[i].idCliente = cliente[indiceAleatoriocliente].idCliente;
                 //bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
                 Asistencias[i].CursosInscriptos->idCurso = clases[indiceAleatorioclase].idClase;

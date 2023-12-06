@@ -10,10 +10,11 @@ int main() {
     string archivobinario= "asistencias_1697673600000.dat";
     int tamanio = contarClientes(archivocliente);
     int cantclases = contarClases(archivoclases);
-    int cantAsistencias=cantAsistencias();//----------------¿como contamos cantidad de asistencias?--------------------
+    //int cantAsistencias=cantAsistencias();//----------------¿como contamos cantidad de asistencias?--------------------
+    int cantAsis=0;
 
-    Asistencia* Asistencias = new Asistencia[cantAsistencias];//?
-    Inscripcion* Inscrip= new Inscripcion[900];//-------¿Que tamaño?-¿Tambien cantAsistencias?--------------
+    Asistencia* Asistencias = new Asistencia[cantAsis];//?
+    Inscripcion* Inscrip= new Inscripcion[tamanio];//-------¿Que tamaño?-¿Tambien cantAsistencias?--------------
     Clases* clas= new Clases[cantclases];
     Persona* clientes = new Persona[tamanio];
 
