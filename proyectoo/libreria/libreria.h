@@ -40,7 +40,7 @@ struct Asistencia {
 int LeerClientes(const string& archivocliente, Persona* clientes);
 int contarClientes(const string& archivocliente);
 int contarClases(const string& archivoclases);
-int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion* Inscrip,int& cantAsistencia);
+int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion* Inscrip);
 int LeerClases(const string& archivoclase, Clases* clas);
 bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente);
 void resize(string*& vector, int& tam);
