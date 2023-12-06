@@ -4,6 +4,7 @@
 using namespace std;
 
 int main() {
+    int cupoclase[7]={45, 25, 15, 40, 50, 30, 35};
     string archivocliente= "iriClientesGYM.csv";
     string archivoclases= "iriClasesGYM.csv";
     string archivobinario= "asistencias_1697673600000.dat";

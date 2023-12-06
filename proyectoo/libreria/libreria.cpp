@@ -235,6 +235,31 @@ int cantAsistencia(Asistencia* asis){//---------------------como la hacemos???--
 }
 
 
+bool haycupo(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente) {
+    if(clas->idClase[indiceAleatorioclase]<=5){//spinning
+
+    }
+    if (clas[indiceAleatorioclase].idClase >=6 && clas[indiceAleatorioclase].idClase<=11 ) {//yoga
+
+    }
+    if (clas[indiceAleatorioclase].idClase >=12 && clas[indiceAleatorioclase].idClase<=17 ) {//pilates
+
+    }
+    if (clas[indiceAleatorioclase].idClase >=18 && clas[indiceAleatorioclase].idClase<=23 ) {//streching
+
+    }
+    if (clas[indiceAleatorioclase].idClase >=24 && clas[indiceAleatorioclase].idClase<=29 ) {//zumba
+
+    }
+    if (clas[indiceAleatorioclase].idClase >=30 && clas[indiceAleatorioclase].idClase<=33 ) {//boxeo
+
+    }
+    if (clas[indiceAleatorioclase].idClase >=34 && clas[indiceAleatorioclase].idClase<=60 ) {//musculacion
+
+    }
+
+}
+
 Libreria::Libreria()
 {
 
