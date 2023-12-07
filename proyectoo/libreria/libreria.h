@@ -44,7 +44,7 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
 int LeerClases(const string& archivoclase, Clases* clas);
 bool clienterepetido(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente);
 void resize(string*& vector, int& tam);
-bool haycupo(Persona* clientes, Clases* clas,Asistencia* Asistencias, Inscripcion* Inscrip, int indiceAleatorioclase, int indiceAleatoriocliente, int cupomaximo[7]);
+bool haycupo(Clases* clas, int indiceAleatorioclase, int indiceAleatoriocliente, int cupomaximo[7]);
 int leerAsistencia(const string&archivobinario, Asistencia*asis);
 
 void ImprimirClientes(Persona* clientes, int acum);

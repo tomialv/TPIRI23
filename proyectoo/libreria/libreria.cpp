@@ -230,7 +230,7 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
         int indiceAleatoriocliente = rand() % cantClientes;
 
         if(clienterepetido(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false &&
-            haycupo(clases, indiceAleatorioclase, indiceAleatoriocliente, cupomaximo)==true){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
+haycupo(clases, indiceAleatorioclase, indiceAleatoriocliente, cupomaximo)==true){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
                 resize(Asistencias, cantAsis);
                 Asistencias[i].idCliente = cliente[indiceAleatoriocliente].idCliente;
                 bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
