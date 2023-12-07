@@ -232,10 +232,10 @@ int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int 
         if(clienterepetido(cliente,clases,Asistencias,Inscrip, indiceAleatorioclase, indiceAleatoriocliente)==false &&
 haycupo(clases, indiceAleatorioclase, indiceAleatoriocliente, cupomaximo)==true){//necesito que la funcion reciba los parametros bien pero no se como hacer sjhkajskd ayuda tomi
                 resize(Asistencias, cantAsis);
-                Asistencias[i].idCliente = /*cliente[*/indiceAleatoriocliente/*].idCliente*/;
+                Asistencias[i].idCliente = indiceAleatoriocliente;
                 bi.write((char*)&Asistencias[i].idCliente, sizeof(int));
-                Asistencias[i].CursosInscriptos->idCurso = /*clases[*/indiceAleatorioclase/*].idClase*/;
-                bi.write((char*)Asistencias[i].CursosInscriptos->idCurso, sizeof(int));
+                Asistencias[i].CursosInscriptos[i].idCurso =indiceAleatorioclase;
+                bi.write((char*)Asistencias[i].CursosInscriptos[i].idCurso, sizeof(int));
                 Asistencias[i].cantInscriptos++;
                 //contarAsistencia()//actualizamos la cantidad de asistencia, va a ser la funcion que devuelve cantasistencias
         }
