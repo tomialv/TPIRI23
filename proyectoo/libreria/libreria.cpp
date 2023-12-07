@@ -209,7 +209,7 @@ Asistencia GenerarReservaAleatoria(Clases* clas, int cantClases, Persona* client
 //----------------------------------------------------------------------------------------------------------------
 //METODO 2: ---------TODO EN UNA FUNCION-----------------
 //Hace la reserva, verifica y guarda en el archivo binario
-int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia* Asistencias, Inscripcion*& Inscrip) {//---------------cantAsistencia va con & o con * ?---------------------------
+int agregar(const string& archivobinario, Persona* cliente, Clases* clases, int cantClases, int cantClientes, Asistencia*& Asistencias, Inscripcion*& Inscrip) {//---------------cantAsistencia va con & o con * ?---------------------------
 
     int i;
     int cupomaximo[7]={45, 25, 15, 40, 50, 30, 35};
